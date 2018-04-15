@@ -1,0 +1,18 @@
+ 
+Java Development Kit - jdk - including programing tools ;
+Java Runtime Environment -  jre - only to run java aplications
+
+Java jdk/jre including main libraries of the Java platform
+
+Java Core - including all main packages/classes of the jdk/jre
+
+Java SE - Java Standard Edition - Java Core + Destop apps
+
+Java EE - Java Enterprise Edition - Java Core + Web apps
+
+IDE - Integrated development Environment - Eclipse, InteliJ, NetBeans
+
+Each Java program has threads - when program start it start from Main thread
+
+
+how to see which version of java you are using - java -version
