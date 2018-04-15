@@ -1,3 +1,7 @@
+ JVM - Java Virtual Machine - Execute the code and comunicate with processor and give him the Java 
+ code in bytecode format, and start deamons thereads like Grabage collector.
+ 
+ Heap - this is the Java momory
  
 Java Development Kit - jdk - including programing tools ;
 Java Runtime Environment -  jre - only to run java aplications
