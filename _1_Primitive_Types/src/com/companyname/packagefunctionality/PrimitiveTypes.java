@@ -2,7 +2,22 @@ package com.companyname.packagefunctionality;
 
 public class PrimitiveTypes {
 	
+	//fields
+	private int sum;
+	private String name;
+	private String surname;
+	
+	//this is constructor - when you create an object then the constructor is called
+	//the name of the constructor always shoud be the same as the class name 
+	public PrimitiveTypes(int sumOfConstructor, String nameOfConstructor, String surnameOfConstructor){
+		this.name = nameOfConstructor;
+		this.sum = sumOfConstructor;
+		this.surname = surnameOfConstructor;
+	}
 	public static void main(String []args){
+		
+		
+		
 	//test
 	/*	int getSum = sum(10, 10);
 		System.out.println(getSum);*/
@@ -16,6 +31,7 @@ public class PrimitiveTypes {
 		double doublePrimitiveMin = Double.MIN_VALUE;
 		double doublePrimitiveMax = Double.MAX_VALUE;
 		
+		DoubleExampleClass.max();
 		
 		
 		Double doubleObject = 15151.151;
