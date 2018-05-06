@@ -1,3 +1,4 @@
+
 package com.example.demo;
 
 import javax.persistence.Entity;
@@ -22,17 +23,14 @@ public class Users {
 		return id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public void setName(String username) {
-		this.username = username;
-	}
 
 	public String getPassword() {
 		return password;
@@ -40,6 +38,11 @@ public class Users {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public void setName(String userName2) {
+		// TODO Auto-generated method stub
+		this.username = userName2;
 	}
 
 }
