@@ -1,0 +1,17 @@
+repository - Main directory of the tree
+git init - local files for current directory - initialize that the current direcotry is repository
+git remote - to connect for git repository
+git status - to see what is happen in connected branch
+git add "filename" - this add only one file
+git add . - this add all files
+git commit -m "Commit message"
+git push -u origin master - this is when your first push in the connected branch
+git branch - get all branches list
+git branch testbranchName - create new branch
+git checkout testbranchName - swhitch to testBranchName
+git push --set-upstream origin testbranchName - to push new branchname in Github
+
+--- to merge in master, 
+git checkout master
+git merge testBranchName
+
