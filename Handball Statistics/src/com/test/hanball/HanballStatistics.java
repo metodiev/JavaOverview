@@ -1,5 +1,7 @@
 package com.test.hanball;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -22,26 +24,92 @@ public class HanballStatistics {
 		} while (!line.equals("stop"));
 
 		TreeMap<String, Integer> teams = new TreeMap<String, Integer>();
-		HashMap<String, String> teamsOponents = new HashMap<>();
-
+		HashMap<String, ArrayList<String>> teamsOponents = getTeamsOponents(inputLines, lineCounter);
+		int countWinnersTeam1 = 0;
+		int countWinnersTeam2 = 0;
 		for (int i = 0; i < lineCounter - 1; i++) {
 
 			String[] currentLine = splitStringCurrentLine(inputLines[i]);
 
-			teamsOponents.put(inputLines[0], inputLines[1]);
-			int winner = winnerTeam(currentLine[2], currentLine[2]);
+			int winner = winnerTeam(currentLine[2], currentLine[3]);
 			if (winner == 1) {
-				teams.put(currentLine[0], winner);
+				countWinnersTeam1++;
+				teams.put(currentLine[0], countWinnersTeam1);
+				teams.put(currentLine[1], 0);
 			}
 			if (winner == 2) {
-				teams.put(currentLine[1], winner);
+				countWinnersTeam2++;
+				teams.put(currentLine[1], countWinnersTeam2);
+				teams.put(currentLine[0], 0);
 			}
-
+			
 		}
 
 		for (Map.Entry m : teams.entrySet()) {
-			System.out.println(m.getKey() + " ---" + m.getValue());
+			System.out.println(m.getKey());
+			System.out.println("- Wins: " + m.getValue());
+			
+			for (Map.Entry mOp : teamsOponents.entrySet()) {
+
+				if (m.getKey().equals(mOp.getKey())) {
+					String str  = mOp.getValue().toString();
+					str = str.replace("]",  "");
+					str = str.replace("[",  "");
+					System.out.println("- Opponents: "+ str);
+				}
+			}
+
 		}
+
+	}
+
+	private static HashMap<String, ArrayList<String>> getTeamsOponents(String[] inputLines, int lineCounter) {
+		HashMap<String, ArrayList<String>> teamsOponents = new HashMap<>();
+
+		String key = "";
+		for (int i = 0; i < lineCounter - 1; i++) {
+			String[] currentLine = splitStringCurrentLine(inputLines[i]);
+			String team1 = new String(currentLine[0].toString());
+			String team2 = new String(currentLine[1].toString());
+
+			key = team1;
+			ArrayList<String> opponents1 = new ArrayList<>();
+			for (int j = 0; j < lineCounter - 1; j++) {
+
+				String[] currentLineTemp = splitStringCurrentLine(inputLines[j]);
+				String team1Temp = new String(currentLineTemp[0].toString());
+				String team2Temp = new String(currentLineTemp[1].toString());
+
+				if (team1.equals(team2Temp)) {
+					opponents1.add(team1Temp);
+				} else if (team1.equals(team1Temp)) {
+					opponents1.add(team2Temp);
+				}
+
+				Collections.sort(opponents1);
+				teamsOponents.put(key, opponents1);
+			}
+
+			key = team2;
+			ArrayList<String> opponents2 = new ArrayList<>();
+			for (int j = 0; j < lineCounter - 1; j++) {
+
+				String[] currentLineTemp = splitStringCurrentLine(inputLines[j]);
+				String team1Temp = new String(currentLineTemp[0].toString());
+				String team2Temp = new String(currentLineTemp[1].toString());
+
+				if (team2.equals(team1Temp)) {
+					opponents2.add(team2Temp);
+				} else if (team2.equals(team2Temp)) {
+					opponents2.add(team1Temp);
+				}
+
+				Collections.sort(opponents2);
+				teamsOponents.put(key, opponents2);
+			}
+		}
+
+		return teamsOponents;
 
 	}
 
@@ -50,26 +118,56 @@ public class HanballStatistics {
 		int fMatch = isWinnerFirstMatch(matchOne);
 		int sMatch = isWinnerSecondMatch(matchTwo);
 
-		/*if (fMatch == sMatch) {
-			return 1;
-		} else*/ if (fMatch == 1 && sMatch == 2) {
+		if (fMatch == 1 && sMatch == 1) {
 			return 1;
 		} else if (sMatch == 2 && fMatch == 2) {
 			return 2;
 		}
 
+		if (fMatch == 2 && sMatch == 1) {
+
+			return sumPlayersScore(matchOne, matchTwo);
+		} else if (sMatch == 2 && fMatch == 1) {
+			return sumPlayersScore(matchOne, matchTwo);
+		}
+
 		return 0;
 	}
 
-	private static int isWinnerFirstMatch(String team1) {
-		String[] currentMachOne = team1.split(":");
+	private static int sumPlayersScore(String matchOne, String matchTwo) {
+		String[] currentMachOne = matchOne.split(":");
+		String[] currentMachTwo = matchTwo.split(":");
+
+		int team1ScoreFirstMatch = Integer.valueOf(currentMachOne[0]);
+		int team1ScoreSecondMatch = Integer.valueOf(currentMachTwo[1]);
+
+		int team2ScoreFirstMatch = Integer.valueOf(currentMachOne[1]);
+		int team2ScoreSecondMatch = Integer.valueOf(currentMachTwo[0]);
+
+		int firstPlayerSum = team1ScoreFirstMatch + team1ScoreSecondMatch;
+		int secondPlayerSum = team2ScoreFirstMatch + team2ScoreSecondMatch;
+
+		if (firstPlayerSum > secondPlayerSum) {
+			return 1;
+		} else if (secondPlayerSum > firstPlayerSum) {
+			return 2;
+		} else if (firstPlayerSum == secondPlayerSum) {
+			if (team1ScoreSecondMatch > team2ScoreFirstMatch) {
+				return 1;
+			} else if (team1ScoreSecondMatch < team2ScoreFirstMatch) {
+				return 2;
+			}
+		}
+		return 0;
+	}
+
+	private static int isWinnerFirstMatch(String matchOne) {
+		String[] currentMachOne = matchOne.split(":");
 
 		int team1Score = Integer.valueOf(currentMachOne[0]);
 		int team2Score = Integer.valueOf(currentMachOne[1]);
 
-		if (team1Score == team2Score) {
-			return 2;
-		} else if (team1Score > team2Score) {
+		if (team1Score > team2Score) {
 			return 1;
 		} else if (team2Score > team1Score) {
 			return 2;
@@ -77,8 +175,8 @@ public class HanballStatistics {
 		return 1;
 	}
 
-	private static int isWinnerSecondMatch(String team1) {
-		String[] currentMachOne = team1.split(":");
+	private static int isWinnerSecondMatch(String matchTwo) {
+		String[] currentMachOne = matchTwo.split(":");
 
 		int team1Score = Integer.valueOf(currentMachOne[1]);
 		int team2Score = Integer.valueOf(currentMachOne[0]);
