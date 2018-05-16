@@ -31,31 +31,33 @@ public class HanballStatistics {
 
 			String[] currentLine = splitStringCurrentLine(inputLines[i]);
 
-			int winner = winnerTeam(currentLine[2], currentLine[3]);
-			if (winner == 1) {
-				countWinnersTeam1++;
-				teams.put(currentLine[0], countWinnersTeam1);
+			int[] winner1 = winnerScore(inputLines, lineCounter, currentLine[0]);
+			int[] winner2 = winnerScore(inputLines, lineCounter, currentLine[1]);
+			// int winner = winnerTeam(currentLine[2], currentLine[3]);
+			if (winner1[0] == 1) {
+
+				teams.put(currentLine[0], new Integer(winner1[1]));
 				teams.put(currentLine[1], 0);
 			}
-			if (winner == 2) {
+			if (winner2[0] == 2) {
 				countWinnersTeam2++;
-				teams.put(currentLine[1], countWinnersTeam2);
+				teams.put(currentLine[1], new Integer(winner2[1]));
 				teams.put(currentLine[0], 0);
 			}
-			
+
 		}
 
 		for (Map.Entry m : teams.entrySet()) {
 			System.out.println(m.getKey());
 			System.out.println("- Wins: " + m.getValue());
-			
+
 			for (Map.Entry mOp : teamsOponents.entrySet()) {
 
 				if (m.getKey().equals(mOp.getKey())) {
-					String str  = mOp.getValue().toString();
-					str = str.replace("]",  "");
-					str = str.replace("[",  "");
-					System.out.println("- Opponents: "+ str);
+					String str = mOp.getValue().toString();
+					str = str.replace("]", "");
+					str = str.replace("[", "");
+					System.out.println("- Opponents: " + str);
 				}
 			}
 
@@ -110,6 +112,48 @@ public class HanballStatistics {
 		}
 
 		return teamsOponents;
+
+	}
+
+	private static int[] winnerScore(String[] inputLines, int lineCounter, String CurrentTeam) {
+
+		int[] winnerScore = new int[2];
+		int countWinnersTeam1 = 0;
+		int winner = 0;
+		boolean firstPlayer = false;
+		boolean secondPlayer = false;
+
+		for (int i = 0; i < lineCounter - 1; i++) {
+			String[] currentLine = splitStringCurrentLine(inputLines[i]);
+
+			winner = winnerTeam(currentLine[2], currentLine[3]);
+			if (currentLine[0].equals(CurrentTeam) && winner == 1) {
+				countWinnersTeam1++;
+			}
+
+			if (currentLine[1].equals(CurrentTeam) && winner == 2) {
+				countWinnersTeam1++;
+			}
+
+			if (currentLine[0].equals(CurrentTeam)) {
+				firstPlayer = true;
+			}
+			if (currentLine[1].equals(CurrentTeam)) {
+				secondPlayer = true;
+			}
+
+		}
+		if (firstPlayer) {
+			winnerScore[0] = 1;
+			winnerScore[1] = countWinnersTeam1;
+		}
+
+		if (secondPlayer) {
+			winnerScore[0] = 2;
+			winnerScore[1] = countWinnersTeam1;
+		}
+
+		return winnerScore;
 
 	}
 
