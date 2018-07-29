@@ -14,9 +14,9 @@ public class SubstractionThread implements Runnable {
     @Override
     public void run() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1);
             long substraction =subtraction(this.threadInterval);
-            System.out.println(substraction);
+            //System.out.println(substraction);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -29,6 +29,7 @@ public class SubstractionThread implements Runnable {
 
         for (int i = 0; i <= interval; i++) {
             sum -= i;
+
         }
 
         return sum;

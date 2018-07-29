@@ -14,16 +14,62 @@ public class Intro {
 
         System.out.println("Start new threads");
 
-        for (int i = 0; i < 100; i++) {
+
+        long start1 = System.nanoTime();
+        for (int i = 0; i < 10000000; i++) {
+          //  subtraction(i);
+         //  sum(i);
+            //System.out.println(subtraction(i));
+           // System.out.println(sum(i));
+
+        }
+        long end1 = System.nanoTime();
+        System.out.println(end1-start1 + " END1");
+
+        long start = System.nanoTime();
+        for (int i = 0; i < 10000000; i++) {
             Runnable workerSubstraction = new SubstractionThread(i);
             Runnable workerSum = new SumThread(i);
+
             executor.execute(workerSubstraction);
             executor.execute(workerSum);
+
         }
+        long end = System.nanoTime();
+        System.out.println(end-start + " END");
+
         executor.shutdown();
         while (!executor.isTerminated()) {
         }
+
         System.out.println("Finished all threads");
 
+
+    }
+
+    public static long subtraction(int interval) {
+        long sum = 0;
+
+        for (int i = 0; i <= interval; i++) {
+            sum -= i;
+
+            sum *= i;
+        }
+
+
+
+        return sum;
+    }
+
+    public static  long sum(int interval) {
+        long sum = 0;
+
+        for (int i = 0; i <= interval; i++) {
+            sum += i;
+        }
+
+
+
+        return sum;
     }
 }

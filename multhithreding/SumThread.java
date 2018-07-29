@@ -11,9 +11,9 @@ public class SumThread  implements  Runnable{
     @Override
     public void run() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1);
             long sum = sum(this.threadInterval);
-            System.out.println(sum);
+           // System.out.println(sum);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -25,6 +25,7 @@ public class SumThread  implements  Runnable{
 
         for (int i = 0; i <= interval; i++) {
             sum += i;
+
         }
 
         return sum;
