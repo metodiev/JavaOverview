@@ -9,16 +9,18 @@ public class Intro {
 
         ExecutorService executor = Executors.newFixedThreadPool(10);
 
-        Thread sum = new Thread(new SubstractionThread(10));
-        Thread substraction = new Thread(new SumThread(10));
+   /*     Thread sum = new Thread(new SubstractionThread(10));
+        Thread substraction = new Thread(new SumThread(10));*/
 
         System.out.println("Start new threads");
+        int processors = Runtime.getRuntime().availableProcessors();
+        System.out.println(processors);
 
 
         long start1 = System.nanoTime();
-        for (int i = 0; i < 10000000; i++) {
-          //  subtraction(i);
-         //  sum(i);
+        for (int i = 0; i < 1000000; i++) {
+          // subtraction(i);
+         // sum(i);
             //System.out.println(subtraction(i));
            // System.out.println(sum(i));
 
@@ -27,7 +29,7 @@ public class Intro {
         System.out.println(end1-start1 + " END1");
 
         long start = System.nanoTime();
-        for (int i = 0; i < 10000000; i++) {
+        for (int i = 0; i < 1000000; i++) {
             Runnable workerSubstraction = new SubstractionThread(i);
             Runnable workerSum = new SumThread(i);
 
